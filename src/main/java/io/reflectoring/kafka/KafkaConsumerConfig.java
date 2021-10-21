@@ -22,7 +22,7 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 class KafkaConsumerConfig {
 
 	@Autowired
-	private KafkaTemplate<String, String> kafkatemplate;
+	private KafkaTemplate<String, String> kafkaConsumerTemplate;
 	
     @Value("${io.reflectoring.kafka.bootstrap-servers}")
     private String bootstrapServers;
@@ -44,7 +44,7 @@ class KafkaConsumerConfig {
     KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
-        factory.setReplyTemplate(kafkatemplate);
+        factory.setReplyTemplate(kafkaConsumerTemplate);
         // Comment the RecordFilterStrategy if Filtering is not required        
         factory.setRecordFilterStrategy(record -> record.value().contains("ignored"));
         return factory;
